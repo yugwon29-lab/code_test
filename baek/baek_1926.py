@@ -50,5 +50,5 @@ for n in range(N):
                 max_area = area
 
 print(cnt)
-print(area)
+print(max_area)
 
