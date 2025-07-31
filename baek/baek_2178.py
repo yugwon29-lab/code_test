@@ -16,6 +16,7 @@ queue = []
 dist[start[0]][start[1]] = 1
 queue.append(start)
 
+# BFS
 while len(queue) != 0:
     i, j = queue.pop(0)
 
