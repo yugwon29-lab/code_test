@@ -3,55 +3,32 @@ T = int(input())
 for test_case in range(1, T + 1):
 
     # 4008. 숫자 만들기
-    D, W, K = map(int, input().split())
-    flim = [[int(x) for x in input().split()] for _ in range(D)]
+    N = int(input())
+    pmmd = list(map(int, input().split()))
+    numbers = list(map(int, input().split()))
 
-    def check_flim(flim):
-        for x in range(W):
-            test_pass = False
-            for y in range(D-K+1):
-                check = flim[y][x]
-                test = True
-                for i in range(1, K):
-                    if check != flim[y+i][x]:
-                        test = False
-                if test:
-                    test_pass = True
-                    break
-            if not test_pass:
-                break
+    max_value, min_value = -1E8, 1E8
 
-        return test_pass
-    
-    min_cnt = None
+    def calculate(op_list, plus, minus, times, divide, result):
+        global max_value, min_value
 
-    def test_flim(cur, flim, cnt_chem=0):
-        global min_cnt
+        cur = len(op_list)
 
-        # 가지치기
-        if min_cnt is not None and cnt_chem >= min_cnt:
-            return
-
-        if cur == D:
-            if check_flim(flim):
-                if min_cnt is None or cnt_chem < min_cnt:
-                    min_cnt = cnt_chem
+        if cur == N - 1:
+            if max_value < result:
+                max_value = result
+            if min_value > result:
+                min_value = result
             return
         
-        original = flim[cur][:]
+        if plus < pmmd[0]:
+            calculate(op_list+['+'], plus+1, minus, times, divide, result + numbers[cur+1])
+        if minus < pmmd[1]:
+            calculate(op_list+['-'], plus, minus+1, times, divide, result - numbers[cur+1])
+        if times < pmmd[2]:
+            calculate(op_list+['*'], plus, minus, times+1, divide, result * numbers[cur+1])
+        if divide < pmmd[3]:
+            calculate(op_list+['/'], plus, minus, times, divide+1, result // numbers[cur+1] if result >= 0 else - ((- result) // numbers[cur+1]))
 
-        test_flim(cur+1, flim, cnt_chem)
-
-        # A로 약품처리
-        flim[cur] = [0] * W
-        test_flim(cur+1, flim, cnt_chem+1)
-        
-        # B로 약품처리
-        flim[cur] = [1] * W
-        test_flim(cur+1, flim, cnt_chem+1)
-
-        flim[cur] = original
-
-    test_flim(0, flim, 0)
-
-    print(f'#{test_case} {min_cnt}')
+    calculate([], 0, 0, 0, 0, numbers[0])
+    print(f'#{test_case} {max_value - min_value}')
