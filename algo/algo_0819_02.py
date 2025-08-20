@@ -9,8 +9,8 @@ for t in range(1, T+1):
     def rsp_tour(s, e):
         if s == e:
             return s
-        elif e - s == 1:
-            return rsp(s, e)
+        # elif e - s == 1:
+        #     return rsp(s, e)
         mid = (s+e) // 2
         return rsp(rsp_tour(s, mid), rsp_tour(mid+1, e))
         
