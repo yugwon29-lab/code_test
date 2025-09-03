@@ -32,13 +32,9 @@ while True:
             print(num)
             break
         i += 1
-        
     else:
         num += diff - 1
     num += 1
     if num > 9876543210:
         print(-1)
         break
-
-    
-    
