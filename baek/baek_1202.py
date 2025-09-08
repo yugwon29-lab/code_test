@@ -7,20 +7,23 @@ bag = []
 
 for _ in range(N):
     weight, value = map(int, input().split())
-    heapq.heappush(jewel, (value, -weight))
+    jewel.append((weight, value))
 
 for _ in range(K):
     b = int(input())
-    heapq.heappush(bag, -b)
+    bag.append(b)
+
+jewel.sort()
+bag.sort()
 
 max_value = 0
-while bag and jewel:
-    # 보석 꺼내기
-    v, w = heapq.heappop(jewel)
-    # 넣을 수 있으면 넣기
-    if -w <= -bag[0]:
-        max_value += v
-        heapq.heappop(bag)
-        
+idx = 0
+max_jewel = []
+for c in bag:
+    while idx < N and jewel[idx][0] <= c:
+        heapq.heappush(max_jewel, -jewel[idx][1])
+        idx += 1
+    if max_jewel:
+        max_value += -heapq.heappop(max_jewel)
 
 print(max_value)
