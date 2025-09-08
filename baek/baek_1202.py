@@ -1,35 +1,26 @@
 # 1202. 보석 도둑
+import heapq
+
 N, K = map(int, input().split())
-
 jewel = []
-for _ in range(N):
-    M, V = map(int, input().split())
-    jewel.append((V, M))
-
 bag = []
+
+for _ in range(N):
+    weight, value = map(int, input().split())
+    heapq.heappush(jewel, (value, -weight))
+
 for _ in range(K):
-    C = int(input())
-    bag.append(C)
+    b = int(input())
+    heapq.heappush(bag, -b)
 
-jewel.sort(reverse=True)
-bag.sort()
+max_value = 0
+while bag and jewel:
+    # 보석 꺼내기
+    v, w = heapq.heappop(jewel)
+    # 넣을 수 있으면 넣기
+    if -w <= -bag[0]:
+        max_value += v
+        heapq.heappop(bag)
+        
 
-used = [False] * K
-total_value = 0
-
-for j in jewel:
-    value, mass = j[0], j[1]
-    idx = 0
-    while True:
-        if idx >= K or bag[idx] < mass:
-            break
-        idx += 1
-    while idx < K and used[idx]:
-        idx += 1
-    if idx >= K:
-        continue
-    total_value += value
-    used[idx] = True
-
-print(total_value)
-
+print(max_value)
