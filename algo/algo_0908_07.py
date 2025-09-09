@@ -1,6 +1,5 @@
 # 벽돌 깨기
 from collections import deque
-from copy import deepcopy
 
 T = int(input())
 
@@ -37,7 +36,6 @@ for t in range(1, T+1):
     min_brick = None
     def shot(cur, j, my_board):
         global min_brick
-        original = deepcopy(my_board)
 
         def bfs(i, j, now_board):
             queue = deque()
@@ -50,7 +48,7 @@ for t in range(1, T+1):
                 for n in range(1, brick_num):
                     for m in move:
                         ni, nj = i + m[0] * n, j + m[1] * n
-                        if 0 <= ni < H and 0 <= nj < W:
+                        if 0 <= ni < H and 0 <= nj < W and now_board[ni][nj] != 0:
                             queue.append((ni, nj))
             return now_board
 
@@ -67,12 +65,10 @@ for t in range(1, T+1):
             my_board = fall_brick(my_board)
 
         for k in range(W):
-            shot(cur+1, k, my_board)
-            my_board = deepcopy(original)
+            shot(cur+1, k, [row[:] for row in my_board])
 
     for k in range(W):
-        my_board = deepcopy(board)
-        shot(0, k, board)
+        shot(0, k, [row[:] for row in board])
 
     print(f'#{t} {min_brick}')
 
