@@ -39,7 +39,7 @@ for t in range(1, T+1):
             if minus_10 >= 1 and not used[minus_10]:
                 used[minus_10] = True
                 queue.append(minus_10)
-
+                
         if used[M]:
             break
     
