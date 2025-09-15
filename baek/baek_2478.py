@@ -1,5 +1,5 @@
 # 2478. 자물쇠
-N = 10
+N = int(input())
 A = [int(x) for x in input().split()]
 
 # 마지막 K 왼쪽밀기 횟수
