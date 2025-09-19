@@ -10,6 +10,7 @@ for _ in range(N-1):
     adj[b].append(a)
 
 parents = [-1] * (N+1)
+depth = [0] * (N+1)
 
 def bfs(root):
     q = deque()
@@ -23,39 +24,22 @@ def bfs(root):
                 continue
             q.append(nxt)
             parents[nxt] = now
+            depth[nxt] = depth[now] + 1
 
 bfs(1)
 
 def find_parents(a, b):
-    a_parents = []
-    while True:
-        a_parents.append(a)
+    # 깊이 맞추기
+    while depth[a] > depth[b]:
         a = parents[a]
-        if a == -1:
-            break
-    b_parents = []
-    while True:
-        b_parents.append(b)
+    while depth[a] < depth[b]:
         b = parents[b]
-        if b == -1:
-            break
-    min_len = len(a_parents) + len(b_parents) + 1
-    min_parents = None
-    for a in a_parents:
-        if a in b_parents:
-            min_len = a_parents.index(a) + b_parents.index(a) + 2
-            min_parents = a
-            break
-    for b in b_parents:
-        if b in a_parents:
-            length = a_parents.index(b) + b_parents.index(b) + 2
-            if min_len > length:
-                min_len = length
-                min_parents = a
-            break
-    
-    return min_parents
-    
+    while a != b:
+        a = parents[a]
+        b = parents[b]
+
+    return a
+        
 M = int(input())
 for _ in range(M):
     a, b = map(int, input().split())
