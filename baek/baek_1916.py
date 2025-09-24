@@ -1,7 +1,8 @@
-# 1238. 파티
-import heapq
+# 1916. 최소비용 구하기
+from heapq import heappop, heappush
 
-N, M, X = map(int, input().split())
+N = int(input())
+M = int(input())
 graphs = [[] for _ in range(N+1)]
 
 INF = float('inf')
@@ -14,11 +15,11 @@ def dijkstra(st):
     pq = []
     dist_arr = [INF] * (N+1)
 
-    heapq.heappush(pq, (0, st))
+    heappush(pq, (0, st))
     dist_arr[st] = 0
 
     while pq:
-        dist, node = heapq.heappop(pq)
+        dist, node = heappop(pq)
 
         if dist_arr[node] != dist:
             continue
@@ -30,19 +31,11 @@ def dijkstra(st):
                 continue
 
             dist_arr[nxt_node] = new_dist
-            heapq.heappush(pq, (new_dist, nxt_node))
+            heappush(pq, (new_dist, nxt_node))
 
     return dist_arr
 
-dist_table = []
+S, E = map(int, input().split())
+result = dijkstra(S)
 
-for s in range(N+1):
-    dist_table.append(dijkstra(s))
-
-max_time = 0
-for s in range(1, N+1):
-    time = dist_table[s][X] + dist_table[X][s]
-    if max_time < time:
-        max_time = time
-
-print(max_time)
+print(result[E])
