@@ -1,3 +1,4 @@
+# 20056. 마법사 상어와 파이어볼
 N, M, K = map(int, input().split())
 board_1 = [[[] for _ in range(N)] for _ in range(N)]
 for _ in range(M):
